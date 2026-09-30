@@ -2,57 +2,92 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Token URL se nikalo
-    const token = url.pathname.split("/").filter(Boolean)[0];
+    // Homepage
+    if (url.pathname === "/" || url.pathname === "/index.html") {
+      const response = await env.ASSETS.fetch(request);
 
-    // Root URL par
+      const headers = new Headers(response.headers);
+      headers.set(
+        "Cache-Control",
+        "no-store, no-cache, must-revalidate, max-age=0"
+      );
+      headers.set("Pragma", "no-cache");
+
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers
+      });
+    }
+
+    // Get the one-time token from the URL
+    // Example:
+    // https://birthday-4al.pages.dev/AYESHA2026
+
+    const parts = url.pathname
+      .split("/")
+      .filter(Boolean);
+
+    const token = decodeURIComponent(parts[0] || "").trim();
+
+    // No token
     if (!token) {
       return new Response("Invalid or missing birthday link.", {
         status: 404,
         headers: {
           "Content-Type": "text/plain; charset=UTF-8",
-          "Cache-Control": "no-store, no-cache, must-revalidate"
+          "Cache-Control": "no-store"
         }
       });
     }
 
-    // Check token
-    const used = await env.tokens.get(token);
+    // Check KV
+    const alreadyUsed = await env.tokens.get(token);
 
-    if (used) {
+    // Link was already opened
+    if (alreadyUsed) {
       return new Response(
         "This birthday link has already been used.",
         {
           status: 410,
           headers: {
             "Content-Type": "text/plain; charset=UTF-8",
-            "Cache-Control": "no-store, no-cache, must-revalidate"
+            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"
           }
         }
       );
     }
 
-    // Immediately mark as used
+    // Mark the link as USED immediately
     await env.tokens.put(token, "used");
 
-    // Birthday page
-    const newUrl = new URL(request.url);
-    newUrl.pathname = "/index.html";
+    // Open the original birthday page
+    const pageUrl = new URL(request.url);
 
-    const newRequest = new Request(newUrl, request);
+    pageUrl.pathname = "/index.html";
 
-    const response = await env.ASSETS.fetch(newRequest);
+    // Send the token/name to index.html
+    pageUrl.search = "?name=" + encodeURIComponent(token);
 
-    // Browser ko page cache/restore karne se rokna
-    const newResponse = new Response(response.body, response);
+    const pageRequest = new Request(pageUrl, request);
 
-    newResponse.headers.set(
+    const response = await env.ASSETS.fetch(pageRequest);
+
+    // Prevent browser from restoring/caching the birthday page
+    const headers = new Headers(response.headers);
+
+    headers.set(
       "Cache-Control",
       "no-store, no-cache, must-revalidate, max-age=0"
     );
 
-    newResponse.headers.set("Pragma", "no-cache");
+    headers.set("Pragma", "no-cache");
+    headers.set("Expires", "0");
 
-    return newResponse;
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers
+    });
   }
 };
