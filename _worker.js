@@ -2,25 +2,28 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Root URL -> normal birthday page
+    // Homepage: normal birthday website
     if (url.pathname === "/" || url.pathname === "/index.html") {
-      return env.ASSETS.fetch(
-        new Request(new URL("/index.html", request.url), request)
-      );
+      return env.ASSETS.fetch(request);
     }
 
-    // Token URL
+    // Get token from URL
+    // Example: /test123
     const token = url.pathname
       .split("/")
       .filter(Boolean)[0];
 
+    // No token
     if (!token) {
       return new Response("Invalid or missing birthday link.", {
         status: 404,
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        }
       });
     }
 
-    // Check token
+    // Check whether token has already been used
     const used = await env.tokens.get(token);
 
     if (used) {
@@ -29,18 +32,20 @@ export default {
         {
           status: 410,
           headers: {
-            "Content-Type": "text/plain; charset=UTF-8",
-          },
+            "Content-Type": "text/plain; charset=UTF-8"
+          }
         }
       );
     }
 
-    // Mark as used
+    // Mark token as used
     await env.tokens.put(token, "used");
 
-    // Show birthday page
+    // Serve the birthday website
+    const pageUrl = new URL("/index.html", request.url);
+
     return env.ASSETS.fetch(
-      new Request(new URL("/index.html", request.url), request)
+      new Request(pageUrl, request)
     );
-  },
+  }
 };
