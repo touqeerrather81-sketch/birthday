@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Happy Birthday</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#fdf7f5;--rose:#d9587f;--crimson:#b1264f;--soft:#b56a80;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;overflow:hidden;background:var(--cream);color:var(--crimson);font-family:"Cormorant Garamond",Georgia,serif}
+#play{position:fixed;inset:0;background:radial-gradient(circle at 80% 42%,#ffe9ef 0,#fdf7f5 38%)}
+#c{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
+.hint{position:absolute;top:calc(env(safe-area-inset-top,0px) + 7vh);left:0;right:0;text-align:center;font:600 12px/1 "Cormorant Garamond",serif;letter-spacing:.32em;text-transform:uppercase;color:var(--rose);pointer-events:none}
+.stage{position:fixed;inset:0;opacity:0;visibility:hidden;transition:opacity .9s ease,visibility 0s .9s}
+.stage.on{opacity:1;visibility:visible;transition:opacity .9s ease}
+#bday{z-index:2;display:grid;place-items:center;text-align:center;color:#fff3f0;background:radial-gradient(ellipse at 22% 18%,#ee5580 0,transparent 55%),linear-gradient(135deg,#d5335f,#a8143f 60%,#7f0c33)}
+#bday h1{font:500 clamp(58px,13vw,168px)/.92 "Bodoni Moda","Playfair Display",Didot,serif;letter-spacing:-.01em}
+#bday .sw{width:clamp(180px,26vw,360px);margin-top:1.4rem}
+#bday .sw path{stroke-dasharray:1;stroke-dashoffset:1}
+#bday p{font:italic 400 clamp(18px,2.2vw,28px) "Cormorant Garamond",serif;margin-top:1.2rem;color:#ffd9e2}
+#bday h1,#bday p,#bday .sw{opacity:0}
+#bday.on h1{animation:in 1.2s .3s both}
+#bday.on .sw{opacity:1}
+#bday.on .sw path{animation:draw 1s .9s both ease-out}
+#bday.on p{animation:in 1s 1.6s both}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+#final{z-index:3;background:radial-gradient(ellipse at 75% 40%,#ffeef1 0,#fff8f6 62%)}
+.fin{display:flex;height:100%;align-items:center}
+.txt{flex:0 0 46%;padding:0 4vw 0 8vw;position:relative;z-index:2}
+.txt .a{font:500 clamp(22px,2.6vw,34px)/1.2 "Cormorant Garamond",serif}
+.txt .b{font:400 clamp(56px,8vw,112px)/1.05 "Pinyon Script","Snell Roundhand",cursive;color:#d81b5e;margin:.1em 0 .15em}
+.txt .c{font:500 clamp(16px,1.6vw,21px) "Cormorant Garamond",serif;color:var(--soft)}
+#re{margin-top:2.2rem;background:none;border:0;font:italic 400 17px "Cormorant Garamond",serif;color:var(--soft);text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.tree{flex:1;height:100%;min-width:0}
+.tree svg{width:100%;height:100%;display:block}
+.lf{opacity:0;transform-box:fill-box;transform-origin:center}
+#final.on .lf{animation:bl .6s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes bl{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+.fh{position:absolute;top:0;pointer-events:none;opacity:.55;animation:fall linear infinite}
+@keyframes fall{from{transform:translate(0,-10vh) rotate(0)}to{transform:translate(5vw,110vh) rotate(160deg)}}
+@media(max-aspect-ratio:1/1){.fin{flex-direction:column-reverse}.txt{flex:none;padding:0 8vw 5vh;text-align:center}.tree{flex:1;width:100%}}
+@media(prefers-reduced-motion:reduce){.fh{display:none}#final.on .lf{animation-duration:.01s}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs><path id="lh" d="M0 7C-10 0 -6 -9 0 -3.5C6 -9 10 0 0 7Z"/></defs></svg>
+
+<main id="play"><canvas id="c" aria-label="Pull the arrow back and release it at the heart"></canvas><p class="hint">Pull the arrow · Let it fly</p></main>
+
+<section id="bday" class="stage" aria-live="polite">
+  <div>
+    <h1>Happy<br>Birthday</h1>
+    <svg class="sw" viewBox="0 0 320 24" aria-hidden="true"><defs><linearGradient id="gg"><stop offset="0" stop-color="#f3d99b" stop-opacity="0"/><stop offset=".3" stop-color="#e8c47c"/><stop offset=".7" stop-color="#f6e2ad"/><stop offset="1" stop-color="#e8c47c" stop-opacity="0"/></linearGradient></defs><path d="M4 16C80 6 200 6 316 10" fill="none" stroke="url(#gg)" stroke-width="3" stroke-linecap="round" pathLength="1"/></svg>
+    <p id="sub">to someone worth celebrating</p>
+  </div>
+</section>
+
+<section id="final" class="stage">
+  <div class="fin">
+    <div class="txt">
+      <p class="a" id="fa">Happy Birthday…</p>
+      <p class="b">make it count</p>
+      <p class="c" id="fc">here’s to a year that blooms</p>
+      <button id="re" type="button">Play again</button>
+    </div>
+    <div class="tree">
+      <svg viewBox="0 0 500 620" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+        <ellipse cx="250" cy="606" rx="235" ry="14" fill="#ffd9c4" opacity=".7"/>
+        <g fill="none" stroke="#6a3428" stroke-linecap="round">
+          <path d="M250 610C246 530 254 470 250 400" stroke-width="22"/>
+          <path d="M250 430C220 400 190 380 160 330" stroke-width="9"/>
+          <path d="M250 430C285 400 315 375 345 325" stroke-width="9"/>
+          <path d="M250 400C240 340 235 300 210 240" stroke-width="7"/>
+          <path d="M250 400C262 340 270 300 295 235" stroke-width="7"/>
+          <path d="M250 380C250 320 250 280 250 200" stroke-width="6"/>
+          <path d="M190 380C150 370 120 340 100 300" stroke-width="5"/>
+          <path d="M315 375C350 365 385 335 400 295" stroke-width="5"/>
+          <path d="M215 260C190 240 170 220 160 190" stroke-width="4"/>
+          <path d="M290 255C315 235 335 215 345 185" stroke-width="4"/>
+        </g>
+        <g id="leaves"></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<script>
+const $=id=>document.getElementById(id),cv=$('c'),ctx=cv.getContext('2d');
+let W,H,S,bx,by,hx,hy,TX,TY,BY,mode='idle',px=0,py=0,pr={x:0,y:0},tRel=0,fp=0,t=0,tb=0,bf=0,shake=0,last=performance.now(),parts=[],fl={},timers=[];
+const L=()=>135*S,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function size(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);
+ S=clamp(Math.min(W/900,H/600),.7,1.4);bx=Math.max(W*.12,110*S);by=H*.53;hx=W*.78;hy=H*.42;TX=bx+30*S;TY=by-150*S;BY=by+150*S}
+addEventListener('resize',size);size();
+
+function hp(x,y,s){ctx.beginPath();ctx.moveTo(x,y+s*.9);ctx.bezierCurveTo(x-s*1.5,y-s*.1,x-s*.8,y-s*1.2,x,y-s*.45);ctx.bezierCurveTo(x+s*.8,y-s*1.2,x+s*1.5,y-s*.1,x,y+s*.9);ctx.closePath()}
+function heart(x,y,s,glow){
+ ctx.save();
+ if(glow){const g=ctx.createRadialGradient(x,y,s*.3,x,y,s*3.4);g.addColorStop(0,'rgba(255,70,125,.38)');g.addColorStop(1,'rgba(255,70,125,0)');ctx.fillStyle=g;ctx.fillRect(x-s*4,y-s*4,s*8,s*8)}
+ const f=ctx.createRadialGradient(x-s*.45,y-s*.55,s*.1,x,y,s*1.5);f.addColorStop(0,'#ffa3c0');f.addColorStop(.45,'#f5497f');f.addColorStop(1,'#cf1656');
+ ctx.fillStyle=f;hp(x,y,s);ctx.fill();
+ ctx.fillStyle='rgba(255,255,255,.45)';ctx.beginPath();ctx.ellipse(x-s*.55,y-s*.5,s*.28,s*.16,-.7,0,7);ctx.fill();
+ ctx.restore()}
+function bow(col,scol,al,N,grip){
+ if(al<.01)return;
+ ctx.save();ctx.globalAlpha=al;ctx.lineCap='round';
+ ctx.strokeStyle=scol;ctx.lineWidth=1.4*S;ctx.beginPath();ctx.moveTo(TX+6*S,TY-8*S);ctx.lineTo(N.x,N.y);ctx.lineTo(TX+6*S,BY+8*S);ctx.stroke();
+ ctx.strokeStyle=col;ctx.lineWidth=6*S;ctx.beginPath();ctx.moveTo(TX+6*S,TY-8*S);ctx.quadraticCurveTo(TX-112*S,by,TX+6*S,BY+8*S);ctx.stroke();
+ ctx.strokeStyle=grip;ctx.lineWidth=9*S;ctx.beginPath();ctx.moveTo(TX-53*S,by-22*S);ctx.lineTo(TX-53*S,by+22*S);ctx.stroke();
+ ctx.restore()}
+function arrow(x,y,a,len,al){
+ ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.globalAlpha=al;ctx.lineCap='round';
+ ctx.strokeStyle='#7d1f45';ctx.lineWidth=3*S;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(len,0);ctx.stroke();
+ ctx.fillStyle='#b0285a';ctx.beginPath();ctx.moveTo(len+14*S,0);ctx.lineTo(len-6*S,-7*S);ctx.lineTo(len-2*S,0);ctx.lineTo(len-6*S,7*S);ctx.closePath();ctx.fill();
+ ctx.fillStyle='#e0587f';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(14*S,-9*S);ctx.lineTo(24*S,-9*S);ctx.lineTo(12*S,0);ctx.lineTo(24*S,9*S);ctx.lineTo(14*S,9*S);ctx.closePath();ctx.fill();
+ ctx.restore()}
+function trail(P,a,len,al){
+ const c=Math.cos(a),s=Math.sin(a);
+ for(const[o,w,k]of[[0,7,.5],[-6,2,.3],[6,2,.3]]){
+  const ox=-s*o*S,oy=c*o*S,g=ctx.createLinearGradient(P.x+ox,P.y+oy,P.x+ox-c*len,P.y+oy-s*len);
+  g.addColorStop(0,`rgba(232,72,124,${k*al})`);g.addColorStop(1,'rgba(232,72,124,0)');
+  ctx.strokeStyle=g;ctx.lineWidth=w*S;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(P.x+ox,P.y+oy);ctx.lineTo(P.x+ox-c*len,P.y+oy-s*len);ctx.stroke()}}
+const Z=[[0,-3],[0,-.9],[.22,-.45],[-.18,0],[.2,.45],[-.12,.85],[0,3]];
+function zig(sd){const u=42*S;ctx.moveTo(hx+sd*3*u,hy-3*u);for(const[x,y]of Z)ctx.lineTo(hx+x*u,hy+y*u);ctx.lineTo(hx+sd*3*u,hy+3*u);ctx.closePath()}
+function burst(){const C=['#ff5e8f','#ff8fb1','#f2497c','#ffc1d3','#e02a63'];
+ for(let i=0;i<48;i++){const a=Math.random()*6.283,v=(120+Math.random()*380)*S;parts.push({x:hx,y:hy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-60*S,s:(4+Math.random()*9)*S,r:Math.random()*6,vr:(Math.random()-.5)*6,l:1,d:.7+Math.random()*.9,c:C[i%5]})}}
+
+function frame(now){
+ const dt=Math.min(.05,(now-last)/1000);last=now;t+=dt;
+ ctx.clearRect(0,0,W,H);
+ if(mode==='done'){requestAnimationFrame(frame);return}
+ ctx.save();
+ if(shake>0){shake-=dt;const a=Math.max(0,shake)/.35*7*S;ctx.translate((Math.random()-.5)*a,(Math.random()-.5)*a)}
+ bf+=((mode==='idle'||mode==='drag'?0:1)-bf)*Math.min(1,dt*5);
+ let N={x:TX,y:by};
+ if(mode==='drag')N={x:TX+px,y:by+py};
+ else if(mode!=='idle'){const u=t-tRel,v=Math.exp(-u*9)*Math.cos(u*45);N={x:TX+pr.x*v,y:by+pr.y*v}}
+
+ let al=1;
+ if(mode==='break'){
+  tb+=dt;
+  const p=Math.min(tb/.9,1),e=1-Math.pow(1-p,3);al=tb<1.1?1:Math.max(0,1-(tb-1.1)/.5);
+  const fa=Math.max(0,.75-tb*1.5);
+  if(fa>0){const g=ctx.createRadialGradient(hx,hy,0,hx,hy,190*S);g.addColorStop(0,`rgba(255,120,160,${fa})`);g.addColorStop(1,'rgba(255,120,160,0)');ctx.fillStyle=g;ctx.fillRect(hx-200*S,hy-200*S,400*S,400*S)}
+  ctx.strokeStyle=`rgba(240,80,130,${Math.max(0,.55-tb*.8)})`;ctx.lineWidth=3*S;ctx.beginPath();ctx.arc(hx,hy,(50+tb*230)*S,0,7);ctx.stroke();
+  for(const sd of[-1,1]){ctx.save();ctx.globalAlpha=al;ctx.translate(sd*46*S*e,14*S*e);ctx.translate(hx,hy);ctx.rotate(sd*.42*e);ctx.translate(-hx,-hy);ctx.beginPath();zig(sd);ctx.clip();heart(hx,hy,42*S,false);ctx.restore()}
+  for(const q of parts){q.vy+=260*S*dt;q.vx*=.99;q.x+=q.vx*dt;q.y+=q.vy*dt;q.r+=q.vr*dt;q.l-=dt/q.d;
+   if(q.l>0){ctx.save();ctx.globalAlpha=q.l;ctx.translate(q.x,q.y);ctx.rotate(q.r);ctx.fillStyle=q.c;hp(0,0,q.s);ctx.fill();ctx.restore()}}
+  if(tb>1.6&&!fl.b){fl.b=1;show('bday');timers.push(setTimeout(()=>{show('final');timers.push(setTimeout(()=>{mode='done'},1000))},4300))}
+ }else heart(hx,hy,42*S*(1+.035*Math.sin(t*3.2)),true);
+
+ bow('#5b2230','#8a6a72','1'*(1-bf),N,'#3a1420');
+ bow('#d9c3c8','#e8d8dc',bf*.9,N,'#cdb3ba');
+
+ if(mode==='idle'||mode==='drag'){
+  const a=mode==='drag'&&px<-1?Math.atan2(-py,-px):0;
+  arrow(N.x-Math.cos(a)*34*S,N.y-Math.sin(a)*34*S,a,L(),1)
+ }else if(mode==='fly'){
+  fp=Math.min(1,fp+dt/.75);const e=1-Math.pow(1-fp,1.8);
+  const a=fl.a0+(fl.af-fl.a0)*Math.min(1,e*4),P={x:fl.s.x+(fl.e.x-fl.s.x)*e,y:fl.s.y+(fl.e.y-fl.s.y)*e};
+  trail(P,a,Math.min(230*S,e*fl.d+30*S),1);arrow(P.x,P.y,a,L(),1);fl.P=P;fl.a=a;
+  if(fp>=1){mode='break';tb=0;shake=.35;burst()}
+ }else if(mode==='break'){
+  trail(fl.P,fl.a,230*S,Math.max(0,1-tb*1.3));arrow(fl.P.x,fl.P.y,fl.a,L(),al)
+ }
+ ctx.restore();
+ parts=parts.filter(q=>q.l>0);
+ requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+
+function launch(){
+ const a0=px<-1?Math.atan2(-py,-px):0,s={x:TX+px-Math.cos(a0)*34*S,y:by+py-Math.sin(a0)*34*S},tg={x:hx-14*S,y:hy+2*S};
+ const af=Math.atan2(tg.y-s.y,tg.x-s.x),e={x:tg.x-Math.cos(af)*L(),y:tg.y-Math.sin(af)*L()};
+ fl={a0,af,s,e,d:Math.hypot(e.x-s.x,e.y-s.y)};pr={x:px,y:py};tRel=t;fp=0;mode='fly'}
+function move(e){const m=Math.min(120*S,TX-40*S);px=clamp(e.clientX-TX,-m,0);py=clamp(e.clientY-by,-70*S,70*S)}
+function end(){if(mode!=='drag')return;if(-px>22*S)launch();else{mode='idle';px=py=0}}
+cv.addEventListener('pointerdown',e=>{if(mode!=='idle')return;
+ if(Math.abs(e.clientY-by)<80*S&&e.clientX>TX-70*S&&e.clientX<TX+160*S){mode='drag';cv.setPointerCapture(e.pointerId);move(e)}});
+cv.addEventListener('pointermove',e=>{if(mode==='drag')move(e)});
+cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+addEventListener('keydown',e=>{if(mode==='idle'&&(e.key===' '||e.key==='Enter')&&!e.target.closest('button')){e.preventDefault();px=-Math.min(110*S,TX-40*S);py=0;mode='drag';setTimeout(launch,350)}});
+
+function show(id){$(id).classList.add('on')}
+function reset(){timers.forEach(clearTimeout);timers=[];$('final').classList.remove('on');$('bday').classList.remove('on');mode='idle';px=py=0;parts=[];fl={};bf=0}
+$('re').addEventListener('click',reset);
+
+// heart-leaf tree
+const NS='http://www.w3.org/2000/svg',lv=$('leaves'),cols=['#ff7ea1','#ff9db8','#f9b4c5','#ffb38a','#f4577f','#ffc9a8','#ff8e7a','#f26b93'];
+function leaf(x,y,s,delay){
+ const g=document.createElementNS(NS,'g'),u=document.createElementNS(NS,'use');
+ g.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(Math.random()*70-35).toFixed(0)}) scale(${s.toFixed(2)})`);
+ u.setAttribute('href','#lh');u.setAttribute('fill',cols[Math.random()*cols.length|0]);u.setAttribute('class','lf');u.style.animationDelay=delay.toFixed(2)+'s';
+ g.append(u);lv.append(g)}
+for(let n=0;n<620;){
+ const x=80+Math.random()*340,y=40+Math.random()*345,X=(x-250)/148,Y=-(y-232)/148;
+ if(Math.pow(X*X+Y*Y-1,3)-X*X*Y*Y*Y>0)continue;
+ n++;leaf(x,y,.7+Math.random()*.8,(385-y)/345*1.6+Math.random()*.5)}
+for(let i=0;i<40;i++)leaf(30+Math.random()*440,588+Math.random()*22,.5+Math.random()*.5,1.8+Math.random()*.8);
+for(let i=0;i<8;i++){
+ const d=document.createElement('i');d.className='fh';
+ d.style.cssText=`left:${Math.random()*80}%;width:${10+Math.random()*12}px;animation-duration:${10+Math.random()*8}s;animation-delay:${-Math.random()*14}s`;
+ d.innerHTML=`<svg viewBox="-11 -10 22 20"><use href="#lh" fill="${cols[i%cols.length]}"/></svg>`;$('final').append(d)}
+// personalise: link#name=Ayesha&msg=your own line   (also works as ?name=Ayesha)
+const q=new URLSearchParams(location.hash.slice(1)||location.search),nm=(q.get('name')||'').trim().slice(0,30),ms=(q.get('msg')||'').trim().slice(0,60);
+if(nm){$('sub').textContent='to '+nm+', someone worth celebrating';$('fa').textContent='Happy Birthday, '+nm+'…';document.title='Happy Birthday, '+nm}
+if(ms)$('fc').textContent=ms;
+</script>
+</body>
+</html>
